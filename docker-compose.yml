@@ -1,0 +1,34 @@
+version: '3.8'
+services:
+  catalog:
+    build:
+      context: catalog
+    ports:
+      - "4575:4575"
+    networks:
+      - microservicesNetwork
+
+  order:
+    build:
+      context: order
+    ports:
+      - "3300:3300"
+    depends_on:
+      - catalog
+    networks:
+      - microservicesNetwork
+
+  gateway:
+    build:
+      context: gateway
+    ports:
+      - "4567:4567"
+    depends_on:
+      - catalog
+      - order
+    networks:
+      - microservicesNetwork
+
+networks:
+  microservicesNetwork:
+    driver: bridge
