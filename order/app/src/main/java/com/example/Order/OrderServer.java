@@ -9,7 +9,7 @@ import com.google.gson.JsonParser;
 
 public class OrderServer {
 
-    private static final String CATALOG_SERVER_URL = "http://localhost:4575"; // Adjust this to your catalog server's URL
+    private static final String CATALOG_SERVER_URL = "http://catalog:4575";
 
     public static void main(String[] args) {
         port(3300);
@@ -29,11 +29,12 @@ public class OrderServer {
 
     private static boolean attemptPurchase(String itemId) {
         try {
-            // Fetch book info to check stock
+
             HttpResponse<String> infoResponse = Unirest.get(CATALOG_SERVER_URL + "/info/" + itemId).asString();
             if (infoResponse.getStatus() == 200) {
                 JsonObject bookInfo = JsonParser.parseString(infoResponse.getBody()).getAsJsonObject();
                 int stock = bookInfo.get("stock").getAsInt();
+                System.out.println(stock);
 
                 if (stock > 0) {
 
@@ -47,3 +48,4 @@ public class OrderServer {
         return false;
     }
 }
+

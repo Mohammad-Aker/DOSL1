@@ -17,9 +17,8 @@ WORKDIR /usr/app
 COPY . .
 
 
-RUN mvn clean package
+RUN mvn package
 
-EXPOSE 3300
 
 
 CMD ["java","-jar","target/order-1.0-SNAPSHOT.jar"]

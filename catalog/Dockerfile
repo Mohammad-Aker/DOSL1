@@ -17,9 +17,8 @@ WORKDIR /usr/app
 COPY . .
 
 
-RUN mvn clean package
+RUN mvn package
 
-EXPOSE 4575
 
 
 CMD ["java","-jar","target/catalog-1.0-SNAPSHOT.jar"]
