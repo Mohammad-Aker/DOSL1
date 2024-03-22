@@ -7,7 +7,7 @@ import static spark.Spark.*;
 public class CatalogServer {
     public static void main(String[] args) {
 
-        List<Book> books = Book.readBooksFromFile("/Users/mohammadaker/IdeaProjects/DOSL1-main/catalog/src/main/java/com/example/Catalog/books.txt");
+        List<Book> books = Book.readBooksFromFile("/usr/app/src/main/java/com/example/Catalog/books.txt");
 
         port(4575);
 
