@@ -1,4 +1,4 @@
-package com.example.dosl1.backend.Catalog;
+package com.example.Catalog;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

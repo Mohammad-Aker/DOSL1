@@ -1,4 +1,4 @@
-package com.example.dosl1.backend.Catalog;
+package com.example.Catalog;
 import com.google.gson.Gson;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -7,9 +7,9 @@ import static spark.Spark.*;
 public class CatalogServer {
     public static void main(String[] args) {
 
-        List<Book> books = Book.readBooksFromFile("/Users/mohammadaker/IdeaProjects/DOSL1/src/main/java/com/example/dosl1/backend/Catalog/books.txt");
+        List<Book> books = Book.readBooksFromFile("/Users/mohammadaker/IdeaProjects/DOSL1-main/catalog/src/main/java/com/example/Catalog/books.txt");
 
-        port(4570);
+        port(4575);
 
         Gson gson = new Gson();
 
