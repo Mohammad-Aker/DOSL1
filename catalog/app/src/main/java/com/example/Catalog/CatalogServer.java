@@ -8,7 +8,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import static spark.Spark.*;
 
@@ -17,7 +17,7 @@ public class CatalogServer {
 
 
         String booksFilePath="/usr/app/src/main/java/com/example/Catalog/books.txt";
-        List<Book> books = Book.readBooksFromFile(booksFilePath);
+        AtomicReference<List<Book>> books = new AtomicReference<>(Book.readBooksFromFile(booksFilePath));
 
         port(4575);
 
@@ -27,7 +27,7 @@ public class CatalogServer {
         get("/info/:id", (request, response) -> {
             int id = Integer.parseInt(request.params(":id"));
 
-            Book resultBook = books.stream()
+            Book resultBook = books.get().stream()
                     .filter(book -> book.getId() == id)
                     .findFirst()
                     .orElse(null);
@@ -46,7 +46,7 @@ public class CatalogServer {
         get("/search/:topic", (request, response) -> {
             String topic = request.params(":topic");
 
-            List<Book> filteredBooks = books.stream()
+            List<Book> filteredBooks = books.get().stream()
                     .filter(book -> book.getTopic().equalsIgnoreCase(topic))
                     .collect(Collectors.toList());
 
@@ -71,7 +71,7 @@ public class CatalogServer {
                     if (parts.length >= 5) {
                         int stock = Integer.parseInt(parts[3]);
                         if (stock > 0) {
-                            stock--; // Decrement the stock
+                            stock--;
                             parts[3] = String.valueOf(stock);
                             line = String.join(",", parts);
                             found = true;
@@ -83,6 +83,8 @@ public class CatalogServer {
 
             if (found) {
                 Files.write(Paths.get(booksFilePath), updatedLines, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
+                // Reload books from file after update
+                books.set(Book.readBooksFromFile(booksFilePath));
                 return "Stock updated successfully.";
             } else {
                 response.status(404);
@@ -92,7 +94,7 @@ public class CatalogServer {
     }
 
     private static void updateBooksFile(List<Book> books) {
-        try (FileWriter writer = new FileWriter("books.txt")) {
+        try (FileWriter writer = new FileWriter("/usr/app/src/main/java/com/example/Catalog/books.txt")) {
             for (Book book : books) {
                 writer.write(book.toString() + "\n");
             }
