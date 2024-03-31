@@ -1,10 +1,13 @@
 version: '3.8'
+
 services:
   catalog:
     build:
       context: catalog
     ports:
       - "4575:4575"
+    volumes:
+      - books-data:/usr/app/src/main/java/com/example/Catalog/
     networks:
       - microservicesNetwork
 
@@ -28,6 +31,9 @@ services:
       - order
     networks:
       - microservicesNetwork
+
+volumes:
+  books-data:
 
 networks:
   microservicesNetwork:
