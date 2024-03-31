@@ -11,5 +11,8 @@
         <module name="order" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="DOSL1" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
