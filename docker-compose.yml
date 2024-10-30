@@ -7,7 +7,7 @@ services:
     ports:
       - "4575:4575"
     volumes:
-      - books-data:/usr/app/src/main/java/com/example/Catalog/
+      - /Users/mohammadaker/IdeaProjects/DOSL1-main/catalog/app/src/main/java/com/example/Catalog:/usr/app/src/main/java/com/example/Catalog/
     networks:
       - microservicesNetwork
 
@@ -32,8 +32,6 @@ services:
     networks:
       - microservicesNetwork
 
-volumes:
-  books-data:
 
 networks:
   microservicesNetwork:
